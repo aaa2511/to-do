@@ -1,15 +1,9 @@
 <template>
   <div>
-      <input @keyup.enter="enter" v-model="message" :placeholder="placeholder">
-      <p>메시지 : {{message}} </p>
-      <div v-for="{ message, isCompleted, id } in sortedList" :key="id">
-        {{message}} {{isCompleted}}
-        <button @click="active(id)">완료</button>
-        <button @click="remove(id)">삭제</button>
-      </div>
-      <button @click="ascending = !ascending">정렬</button>
-      <button @click="filter = filter == 'all' ? 'completed' : filter == 'completed' ? 'active' : 'all'">{{filter}}</button>
-      {{isCompletedCount}} 활성화 갯수
+    <div class="input_area">
+      <div class="button"></div>
+      <input class="input" @keyup.enter="enter" v-model="message" :placeholder="placeholder">
+    </div>
   </div>
 </template>
 
@@ -18,42 +12,50 @@ export default {
   data() {
     return {
       message : '',
-      placeholder: '입력해주세요',
-      list : [],
-      ascending: true,
-      filter: 'all'
-    }
-  },
-  computed: {
-    filterdList () {
-      if (this.filter == 'all') return this.list
-      else if (this.filter == 'completed') return this.list.filter(e => e.isCompleted == true)
-      else if (this.filter == 'active') return this.list.filter(e => e.isCompleted == false)
-    },
-    sortedList () {
-      return this.filterdList.sort((a, b) => this.ascending ? a.id - b.id : b.id - a.id)
-    },
-    isCompletedCount () {
-      const filterd = this.list.filter(e => e.isCompleted == true)
-      return filterd.length
+      placeholder: 'What neeeds to be done?'
     }
   },
   methods: {
     enter() {
-      this.list.push({ message: this.message || this.placeholder, id: new Date().getTime(), isCompleted: false })
+      this.$emit('inputList', { message: this.message || this.placeholder, id: new Date().getTime(), isCompleted: false })
+      this.clearInput()
     },
-    remove (id) {
-      const index = this.list.findIndex(e => e.id == id)
-      this.list.splice(index, 1)
-    },
-    active (id) {
-      const index = this.list.findIndex(e => e.id == id)
-      this.$set(this.list, index, { ...this.list[index], isCompleted: !this.list[index].isCompleted })
+    clearInput() {
+      this.message = ''
     }
   }
 }
 </script>
 
-<style>
-
+<style lang="scss">
+.input_area {
+      position: relative;
+      width: 100%;
+      border: 1px solid #D3D3D3;
+      height: calc(4vh + 4vw);
+      .button {
+        float: left;
+        width: calc(3vh + 3vw);
+        height: 100%;
+        background-color: lawngreen;
+      }
+      .input {
+        float: left;
+        height: 100%;
+        width: calc(100% - 5vh - 5vw);
+        border: none;
+        padding: 0 calc(1vh + 1vw);
+        font-size: calc(2vh + 2vw);
+        font-weight: 100;
+        background: #FDFDFD;
+      }
+      .input:focus {
+        outline: none;
+      }
+      .input::placeholder {
+        font-weight: 100;
+        font-style: italic;
+        opacity: .3;
+      }
+    }
 </style>

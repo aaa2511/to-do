@@ -1,5 +1,12 @@
 [
   {
+    "name": "todo",
+    "path": "/todo",
+    "component": "C:\\\\Users\\\\razer\\\\Documents\\\\GitHub\\\\to-do\\\\pages\\\\todo.vue",
+    "chunkName": "pages/todo",
+    "_name": "_4069a8c3"
+  },
+  {
     "name": "index",
     "path": "/",
     "component": "C:\\\\Users\\\\razer\\\\Documents\\\\GitHub\\\\to-do\\\\pages\\\\index.vue",
